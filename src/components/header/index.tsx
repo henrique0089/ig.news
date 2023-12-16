@@ -6,7 +6,7 @@ import { NavLink } from './nav-link'
 
 export function Header() {
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 flex h-20 items-center bg-transparent px-4">
+    <header className="fixed left-0 right-0 top-0 z-50 flex h-20 items-center bg-white px-4">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
         <div className="flex items-center gap-9">
           <Link href="/">

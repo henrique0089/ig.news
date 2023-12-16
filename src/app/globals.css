@@ -75,6 +75,19 @@
   }
 }
 
+a {
+  text-decoration: none;
+  width: fit-content;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.post-card-a {
+  text-decoration: none !important;
+}
+
 .bg-mask {
   background-image: url('/public/bg-mask.png');
   background-repeat: no-repeat;
@@ -84,4 +97,12 @@
 
 .circle-bg-filter {
   filter: blur(225px);
+}
+
+.like-btn {
+  box-shadow: 0 2px 4px rgba(108, 108, 108, 0.2),0 0 0 transparent;
+}
+
+.like-btn:hover {
+  box-shadow: 0 4px 8px rgba(108, 108, 108, 0.4), 0 0 0 transparent;
 }

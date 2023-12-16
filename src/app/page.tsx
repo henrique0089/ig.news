@@ -23,7 +23,7 @@ export default function Home() {
         Subscribe now <MoveRight />
       </Button>
 
-      <div className="absolute -bottom-8 -right-8 h-72 w-72  rounded-full bg-sky-400 blur-[160px]" />
+      <div className="absolute -bottom-20 -right-20 h-72 w-72  rounded-full bg-sky-400 blur-[160px]" />
     </main>
   )
 }

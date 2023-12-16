@@ -12,7 +12,7 @@ import Link from 'next/link'
 
 export function PostCard() {
   return (
-    <Link href={`/post/1`}>
+    <Link href={`/posts/1`} className="post-card-a">
       <Card className="w-full max-w-[298px] overflow-hidden">
         <Image
           src="/mock-image.png"
