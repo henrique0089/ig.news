@@ -1,8 +1,10 @@
 import { Avatar } from '@/components/avatar'
 import { fetchGQL } from '@/utils/fetch-gql'
+import { auth } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import { CalendarRange, Heart } from 'lucide-react'
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
 
 interface PostProps {
   params: {
@@ -66,6 +68,10 @@ const getPostBySlug = async (slug: string) => {
 }
 
 export default async function Post({ params }: PostProps) {
+  const { sessionId } = auth()
+
+  if (!sessionId) redirect('/')
+
   const post = await getPostBySlug(params.slug)
 
   return (

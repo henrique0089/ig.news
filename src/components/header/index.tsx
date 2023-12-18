@@ -1,10 +1,14 @@
-import { Github, MoonStar } from 'lucide-react'
+import { currentUser } from '@clerk/nextjs'
+import { MoonStar } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button } from '../ui/button'
+import { AuthButton } from './auth-button'
 import { NavLink } from './nav-link'
+import { UserDropdown } from './user-dropdown'
 
-export function Header() {
+export async function Header() {
+  const user = await currentUser()
+
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex h-20 items-center bg-white px-4">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
@@ -31,9 +35,15 @@ export function Header() {
             <MoonStar className="h-5 w-5 stroke-sky-400" />
           </button>
 
-          <Button>
-            <Github className="h-5 w-5" /> <span>Sign in with github</span>
-          </Button>
+          {user ? (
+            <UserDropdown
+              name={`${user.firstName} ${user.lastName}`}
+              email={user.emailAddresses[0].emailAddress}
+              avatar={user.imageUrl}
+            />
+          ) : (
+            <AuthButton />
+          )}
         </div>
       </div>
     </header>
