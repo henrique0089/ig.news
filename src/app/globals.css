@@ -106,3 +106,11 @@ a:hover {
 .like-btn:hover {
   box-shadow: 0 4px 8px rgba(108, 108, 108, 0.4), 0 0 0 transparent;
 }
+
+.ellipsis-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4; 
+  -webkit-box-orient: vertical;
+}
