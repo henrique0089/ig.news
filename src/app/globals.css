@@ -75,6 +75,10 @@
   }
 }
 
+[data-theme="dark"] body {
+  @apply bg-zinc-900
+}
+
 a {
   text-decoration: none;
   width: fit-content;

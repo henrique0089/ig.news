@@ -8,7 +8,7 @@ export default function Home() {
         👏 Hey, welcome
       </h2>
 
-      <h1 className="mt-6 max-w-[820px] text-center text-6xl font-black text-zinc-900">
+      <h1 className="mt-6 max-w-[820px] text-center text-6xl font-black text-zinc-900 dark:text-white">
         Start your journey now - click to explore the exciting world of{' '}
         <span className="text-sky-400">React!</span>
       </h1>

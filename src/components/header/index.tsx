@@ -1,9 +1,9 @@
 import { currentUser } from '@clerk/nextjs'
-import { MoonStar } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AuthButton } from './auth-button'
 import { NavLink } from './nav-link'
+import { ThemeSwitcher } from './theme-switcher'
 import { UserDropdown } from './user-dropdown'
 
 export async function Header() {
@@ -31,9 +31,7 @@ export async function Header() {
         </div>
 
         <div className="flex items-center gap-9">
-          <button className="flex h-7 w-7 items-center justify-center rounded-sm border-2 border-transparent transition-all hover:cursor-auto hover:bg-zinc-50 focus:border-zinc-200">
-            <MoonStar className="h-5 w-5 stroke-sky-400" />
-          </button>
+          <ThemeSwitcher />
 
           {user ? (
             <UserDropdown
