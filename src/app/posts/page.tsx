@@ -49,7 +49,7 @@ export default async function Posts() {
   return (
     <main>
       <section className="px-4">
-        <div className="mx-auto mb-20 mt-40 flex max-w-5xl flex-wrap items-center justify-between">
+        <div className="mx-auto mb-20 mt-40 flex max-w-5xl flex-wrap items-center justify-between max-[500px]:mt-28 max-[500px]:flex-col max-[500px]:flex-nowrap max-[500px]:justify-normal max-[500px]:gap-12">
           {posts?.map((post) => <PostCard key={post.id} post={post} />)}
         </div>
       </section>

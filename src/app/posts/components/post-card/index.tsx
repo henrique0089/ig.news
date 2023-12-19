@@ -33,7 +33,7 @@ export function PostCard({ post }: PostCardProps) {
         />
 
         <CardHeader>
-          <CardTitle>{post?.title}</CardTitle>
+          <CardTitle className="dark:text-zinc-100">{post?.title}</CardTitle>
           <CardDescription className="ellipsis-text">
             {post?.excerpt}
           </CardDescription>

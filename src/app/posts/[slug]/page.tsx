@@ -81,18 +81,20 @@ export default async function Post({ params }: PostProps) {
         alt={post.title}
         width={1200}
         height={1494}
-        className="mt-20 h-[498px] w-full object-cover"
+        className="mt-20 h-[498px] w-full object-cover max-[500px]:h-[300px]"
       />
 
-      <article className="prose prose-zinc mx-auto my-20 max-w-4xl px-4 prose-a:text-sky-400 prose-a:no-underline">
-        <h1 className="text-4xl font-black">{post.title}</h1>
+      <article className="prose prose-zinc mx-auto my-20  max-w-4xl px-4 prose-a:text-sky-400 prose-a:no-underline dark:text-zinc-300 dark:prose-strong:text-zinc-300 max-[500px]:my-10">
+        <h1 className="text-4xl font-black dark:text-zinc-100 max-[500px]:text-center max-[500px]:text-3xl">
+          {post.title}
+        </h1>
 
-        <div className="-mt-6 flex items-center gap-6">
-          <div className="flex items-center gap-2 text-muted-foreground">
+        <div className="-mt-6 flex items-center gap-6 max-[500px]:-mt-4 max-[500px]:justify-center">
+          <div className="flex items-center gap-2 text-muted-foreground dark:text-zinc-400">
             <CalendarRange className="h-5 w-5" /> <span>{post.createdAt}</span>
           </div>
 
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="flex items-center gap-2 text-muted-foreground dark:text-zinc-400">
             <Heart className="h-5 w-5" /> <span>364</span>
           </div>
         </div>
@@ -105,8 +107,8 @@ export default async function Post({ params }: PostProps) {
         </div>
       </article>
 
-      <button className="like-btn fixed bottom-10 right-10 flex h-12 w-12 items-center justify-center rounded-full border bg-white transition-all">
-        <Heart className="stroke-zinc-700 transition-colors" />
+      <button className="fixed bottom-10 right-10 flex h-12 w-12 items-center justify-center rounded-full border bg-white transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 max-[500px]:bottom-5 max-[500px]:right-5">
+        <Heart className="stroke-zinc-700 transition-colors dark:stroke-zinc-400" />
       </button>
     </main>
   )
