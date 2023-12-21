@@ -1,7 +1,13 @@
-import { Button } from '@/components/ui/button'
-import { MoveRight } from 'lucide-react'
+import { SubscribeButton } from '@/components/subscribe-button'
+import { stripe } from '@/lib/stripe'
 
-export default function Home() {
+export default async function Home() {
+  const price = await stripe.prices.retrieve('price_1OPrYQE7SjI6Paupfy9qIFYY')
+  const amount = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(Number(price.unit_amount) / 100)
+
   return (
     <main className="bg-mask relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4">
       <h2 className="text-2xl font-bold text-muted-foreground dark:text-zinc-300">
@@ -16,12 +22,10 @@ export default function Home() {
       <p className="mt-4 max-w-[652px] text-center text-2xl text-muted-foreground dark:text-zinc-300">
         Get ready to transform your ideas into extraordinary interactive
         experiences!{' '}
-        <strong className="font-medium text-sky-400">for $9,90 month</strong>
+        <strong className="font-medium text-sky-400">for {amount} month</strong>
       </p>
 
-      <Button className="mt-6">
-        Subscribe now <MoveRight />
-      </Button>
+      <SubscribeButton priceId={price.id} />
 
       <div className="absolute -bottom-20 -right-20 h-72 w-72  rounded-full bg-sky-400 blur-[160px] max-[500px]:-bottom-24 max-[500px]:-right-24" />
     </main>
