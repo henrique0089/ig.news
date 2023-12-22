@@ -7,8 +7,14 @@ import { MoveRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 
-export function SubscribeButton({ priceId }: { priceId: string }) {
-  const { isSignedIn, user } = useUser()
+interface SubscribeButtonProps {
+  hasActiveSubscription: boolean
+}
+
+export function SubscribeButton({
+  hasActiveSubscription,
+}: SubscribeButtonProps) {
+  const { isSignedIn } = useUser()
   const { isLoaded, signIn } = useSignIn()
   const router = useRouter()
 
@@ -23,10 +29,10 @@ export function SubscribeButton({ priceId }: { priceId: string }) {
       })
     }
 
-    // if (session?.activeSubscription) {
-    //   router.push('/posts');
-    //   return;
-    // }
+    if (hasActiveSubscription) {
+      router.push('/posts')
+      return
+    }
 
     try {
       const response = await api.post('/subscribe')

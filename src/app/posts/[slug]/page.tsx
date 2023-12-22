@@ -1,4 +1,5 @@
 import { Avatar } from '@/components/avatar'
+import { prisma } from '@/lib/prisma'
 import { fetchGQL } from '@/utils/fetch-gql'
 import { auth } from '@clerk/nextjs'
 import dayjs from 'dayjs'
@@ -68,9 +69,26 @@ const getPostBySlug = async (slug: string) => {
 }
 
 export default async function Post({ params }: PostProps) {
-  const { sessionId } = auth()
+  const { sessionId, user } = auth()
 
   if (!sessionId) redirect('/')
+
+  const prismaUser = await prisma.user.findFirst({
+    where: {
+      email: user?.emailAddresses[0].emailAddress,
+    },
+  })
+
+  const userActiveSubscription = await prisma.subscripton.findFirst({
+    where: {
+      status: 'active',
+      user_id: prismaUser?.id,
+    },
+  })
+
+  if (sessionId && !userActiveSubscription) {
+    redirect(`/posts/preview/${params.slug}`)
+  }
 
   const post = await getPostBySlug(params.slug)
 

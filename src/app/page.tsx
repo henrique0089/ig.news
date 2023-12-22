@@ -1,5 +1,7 @@
 import { SubscribeButton } from '@/components/subscribe-button'
+import { prisma } from '@/lib/prisma'
 import { stripe } from '@/lib/stripe'
+import { auth } from '@clerk/nextjs'
 
 export default async function Home() {
   const price = await stripe.prices.retrieve('price_1OPrYQE7SjI6Paupfy9qIFYY')
@@ -7,6 +9,21 @@ export default async function Home() {
     style: 'currency',
     currency: 'USD',
   }).format(Number(price.unit_amount) / 100)
+
+  const { user } = auth()
+
+  const prismaUser = await prisma.user.findFirst({
+    where: {
+      email: user?.emailAddresses[0].emailAddress,
+    },
+  })
+
+  const userActiveSubscription = await prisma.subscripton.findFirst({
+    where: {
+      status: 'active',
+      user_id: prismaUser?.id,
+    },
+  })
 
   return (
     <main className="bg-mask relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4">
@@ -25,7 +42,7 @@ export default async function Home() {
         <strong className="font-medium text-sky-400">for {amount} month</strong>
       </p>
 
-      <SubscribeButton priceId={price.id} />
+      <SubscribeButton hasActiveSubscription={!!userActiveSubscription} />
 
       <div className="absolute -bottom-20 -right-20 h-72 w-72  rounded-full bg-sky-400 blur-[160px] max-[500px]:-bottom-24 max-[500px]:-right-24" />
     </main>

@@ -1,39 +1,24 @@
 /* eslint-disable prettier/prettier */
+import { prisma } from '@/lib/prisma'
 import { stripe } from '@/lib/stripe'
-import { supabaseClient } from '@/lib/supabase'
-import { auth, currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
-
-type UserData = {
-  id: string
-  email: string
-  stripe_customer_id: string
-}
 
 export async function POST() {
   const clerkUser = await currentUser()
-  const { getToken } = auth()
-  const token = await getToken({ template: 'supabase' })
 
-  if (!token || !clerkUser) {
+  if (!clerkUser) {
     return NextResponse.json(
       { message: 'Unauthorized action!' },
       { status: 401 },
     )
   }
 
-  const supabase = await supabaseClient(token)
-
-  const { error, data } = await supabase
-    .from('users')
-    .select('*')
-    .eq('email', clerkUser?.emailAddresses[0].emailAddress)
-
-  if (error) {
-    return NextResponse.json({ message: error.message }, { status: 400 })
-  }
-
-  const user = data[0] as UserData
+  const user = await prisma.user.findUnique({
+    where: {
+      email: clerkUser?.emailAddresses[0].emailAddress
+    }
+  })
 
   let customerId = user ? user.stripe_customer_id : null
 
@@ -42,9 +27,11 @@ export async function POST() {
       email: clerkUser.emailAddresses[0].emailAddress,
     })
 
-    await supabase.from('users').insert({
-      'email': clerkUser.emailAddresses[0].emailAddress,
-      'stripe_customer_id': stripeCustomer.id
+    await prisma.user.create({
+      data: {
+        email: clerkUser.emailAddresses[0].emailAddress,
+        stripe_customer_id: stripeCustomer.id
+      }
     })
 
     customerId = stripeCustomer.id
