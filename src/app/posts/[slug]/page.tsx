@@ -1,7 +1,7 @@
 import { Avatar } from '@/components/avatar'
 import { prisma } from '@/lib/prisma'
 import { fetchGQL } from '@/utils/fetch-gql'
-import { auth } from '@clerk/nextjs'
+import { auth, currentUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import { CalendarRange, Heart } from 'lucide-react'
 import Image from 'next/image'
@@ -70,13 +70,14 @@ const getPostBySlug = async (slug: string) => {
 }
 
 export default async function Post({ params }: PostProps) {
-  const { sessionId, user } = auth()
+  const { sessionId } = auth()
+  const user = await currentUser()
 
   if (!sessionId) redirect('/')
 
   const prismaUser = await prisma.user.findFirst({
     where: {
-      email: user?.emailAddresses[0].emailAddress,
+      id: user?.id,
     },
   })
 

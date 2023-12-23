@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
         case 'customer.subscription.deleted': {
           const subscriptionObj = event.data.object as Stripe.Subscription
 
-          const user = await prisma.user.findUnique({
+          const user = await prisma.user.findFirst({
             where: {
               stripe_customer_id: subscriptionObj.customer.toString(),
             }
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
         case 'checkout.session.completed': {
           const checkoutSession = event.data.object as Stripe.Checkout.Session
 
-          const user = await prisma.user.findUnique({
+          const user = await prisma.user.findFirst({
             where: {
               stripe_customer_id: checkoutSession.customer?.toString(),
             }

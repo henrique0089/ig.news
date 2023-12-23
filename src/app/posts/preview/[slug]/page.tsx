@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { prisma } from '@/lib/prisma'
 import { fetchGQL } from '@/utils/fetch-gql'
 import dayjs from 'dayjs'
 import { CalendarRange, Heart } from 'lucide-react'
@@ -69,6 +70,8 @@ const getPostBySlug = async (slug: string) => {
 export default async function Preview({ params }: PreviewProps) {
   const post = await getPostBySlug(params.slug)
 
+  const likesCount = await prisma.like.count()
+
   return (
     <main>
       <Image
@@ -90,7 +93,7 @@ export default async function Preview({ params }: PreviewProps) {
           </div>
 
           <div className="flex items-center gap-2 text-muted-foreground dark:text-zinc-400">
-            <Heart className="h-5 w-5" /> <span>364</span>
+            <Heart className="h-5 w-5" /> <span>{likesCount}</span>
           </div>
         </div>
 

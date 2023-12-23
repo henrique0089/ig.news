@@ -16,7 +16,7 @@ export async function POST() {
 
   const user = await prisma.user.findUnique({
     where: {
-      email: clerkUser?.emailAddresses[0].emailAddress
+      id: clerkUser.id,
     }
   })
 
@@ -29,7 +29,7 @@ export async function POST() {
 
     await prisma.user.create({
       data: {
-        email: clerkUser.emailAddresses[0].emailAddress,
+        id: clerkUser.id,
         stripe_customer_id: stripeCustomer.id
       }
     })

@@ -1,7 +1,7 @@
 import { SubscribeButton } from '@/components/subscribe-button'
 import { prisma } from '@/lib/prisma'
 import { stripe } from '@/lib/stripe'
-import { auth } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs'
 
 export default async function Home() {
   const price = await stripe.prices.retrieve('price_1OPrYQE7SjI6Paupfy9qIFYY')
@@ -10,18 +10,12 @@ export default async function Home() {
     currency: 'USD',
   }).format(Number(price.unit_amount) / 100)
 
-  const { user } = auth()
-
-  const prismaUser = await prisma.user.findFirst({
-    where: {
-      email: user?.emailAddresses[0].emailAddress,
-    },
-  })
+  const user = await currentUser()
 
   const userActiveSubscription = await prisma.subscripton.findFirst({
     where: {
       status: 'active',
-      user_id: prismaUser?.id,
+      user_id: user?.id,
     },
   })
 
