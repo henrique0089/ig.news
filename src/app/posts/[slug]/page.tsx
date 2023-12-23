@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import { CalendarRange, Heart } from 'lucide-react'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
+import { LikeButton } from './components/like-button'
 
 interface PostProps {
   params: {
@@ -92,6 +93,14 @@ export default async function Post({ params }: PostProps) {
 
   const post = await getPostBySlug(params.slug)
 
+  const likesData = await prisma.like.findMany()
+  const likes = likesData.map((like) => {
+    return {
+      userId: like.user_id,
+      postId: like.post_id,
+    }
+  })
+
   return (
     <main className="relative">
       <Image
@@ -113,7 +122,7 @@ export default async function Post({ params }: PostProps) {
           </div>
 
           <div className="flex items-center gap-2 text-muted-foreground dark:text-zinc-400">
-            <Heart className="h-5 w-5" /> <span>364</span>
+            <Heart className="h-5 w-5" /> <span>{likes.length}</span>
           </div>
         </div>
 
@@ -125,9 +134,11 @@ export default async function Post({ params }: PostProps) {
         </div>
       </article>
 
-      <button className="fixed bottom-10 right-10 flex h-12 w-12 items-center justify-center rounded-full border bg-white transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 max-[500px]:bottom-5 max-[500px]:right-5">
-        <Heart className="stroke-zinc-700 transition-colors dark:stroke-zinc-400" />
-      </button>
+      <LikeButton
+        likesData={likes}
+        currentUserId={prismaUser?.id ?? ''}
+        postId={post.id}
+      />
     </main>
   )
 }
