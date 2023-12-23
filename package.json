@@ -1,5 +1,5 @@
 {
-  "name": "setup-next",
+  "name": "ignews",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,7 +19,6 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@rocketseat/eslint-config": "^2.1.0",
     "@stripe/stripe-js": "^2.2.2",
-    "@supabase/supabase-js": "^2.39.1",
     "axios": "^1.6.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

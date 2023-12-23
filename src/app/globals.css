@@ -118,3 +118,9 @@ a:hover {
   line-clamp: 4; 
   -webkit-box-orient: vertical;
 }
+
+.preview {
+  background: linear-gradient(#52525b, transparent);	
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
